@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";import {connectDB} from "@/lib/db";import {OwnerRequest} from "@/models";import {ownerRequestSchema} from "@/lib/validation";
+export async function POST(request){try{const data=ownerRequestSchema.parse(await request.json());await connectDB();const item=await OwnerRequest.create(data);return NextResponse.json({success:true,id:item._id},{status:201});}catch(e){return NextResponse.json({success:false,message:e.issues?.[0]?.message||e.message||"Unable to submit request."},{status:400});}}

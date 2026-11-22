@@ -1,0 +1,2 @@
+import {NextResponse} from "next/server";import {connectDB} from "@/lib/db";import {OwnerRequest} from "@/models";import {requireAdmin} from "@/lib/auth";
+export async function GET(){try{await requireAdmin();await connectDB();const requests=await OwnerRequest.find().sort({createdAt:-1}).limit(300).lean();return NextResponse.json({success:true,requests});}catch(e){return NextResponse.json({success:false,message:e.message},{status:e.status||500});}}
